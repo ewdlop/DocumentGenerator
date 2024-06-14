@@ -7,4 +7,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="HtmlDocoumentTest\**" />
+    <Compile Remove="Shared\**" />
+    <EmbeddedResource Remove="HtmlDocoumentTest\**" />
+    <EmbeddedResource Remove="Shared\**" />
+    <None Remove="HtmlDocoumentTest\**" />
+    <None Remove="Shared\**" />
+  </ItemGroup>
+
 </Project>

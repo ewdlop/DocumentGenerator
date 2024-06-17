@@ -14,17 +14,11 @@ public class Tests
     {
         Assert.Multiple(() =>
         {
-            Assert.That(HtmlDocHelper.ContainsTextNode(HtmlDocHelper.RawHtmlDoc1), Is.True);
-            Assert.That(HtmlDocHelper.ContainsTextNode(HtmlDocHelper.RawHtmlDoc2), Is.False);
-            Assert.That(HtmlDocHelper.ContainsTextNode(HtmlDocHelper.RawHtmlDoc3), Is.False);
-            Assert.That(HtmlDocHelper.ContainsTextNode(HtmlDocHelper.RawHtmlDoc4), Is.True);
-            Assert.That(HtmlDocHelper.ContainsTextNode(HtmlDocHelper.RawHtmlDoc5), Is.False);
-            Assert.That(HtmlDocHelper.ContainsTextNode(HtmlDocHelper.RawHtmlDoc6), Is.True);
-            Assert.That(HtmlDocHelper.ContainsTextNode(HtmlDocHelper.RawHtmlDoc7), Is.True);
-            Assert.That(HtmlDocHelper.ContainsTextNode(HtmlDocHelper.RawHtmlDoc8), Is.False);
-            Assert.That(HtmlDocHelper.ContainsTextNode(HtmlDocHelper.RawHtmlDoc9), Is.True);
+            foreach ((string htmlDoc, bool containsTextNode) in HtmlDocHelper.HtmlDocsWithLabel)
+            {
+                Assert.That(HtmlDocHelper.ContainsTextNode(htmlDoc), Is.EqualTo(containsTextNode));
+            }
         });
-
     }
 
     [Test]
@@ -32,16 +26,30 @@ public class Tests
     {
         Assert.Multiple(() =>
         {
-            Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(HtmlDocHelper.RawHtmlDoc1), Is.True);
-            Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(HtmlDocHelper.RawHtmlDoc2), Is.False);
-            Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(HtmlDocHelper.RawHtmlDoc3), Is.False);
-            Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(HtmlDocHelper.RawHtmlDoc4), Is.True);
-            Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(HtmlDocHelper.RawHtmlDoc5), Is.False);
-            Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(HtmlDocHelper.RawHtmlDoc6), Is.True);
-            Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(HtmlDocHelper.RawHtmlDoc7), Is.True);
-            Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(HtmlDocHelper.RawHtmlDoc8), Is.False);
-            Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(HtmlDocHelper.RawHtmlDoc9), Is.True);
+            foreach ((string htmlDoc, bool containsTextNode) in HtmlDocHelper.HtmlDocsWithLabel)
+            {
+                Assert.That(HtmlDocHelper.ContainsTextNodeViaRegex(htmlDoc), Is.EqualTo(containsTextNode));
+            }
         });
+    }
 
+    [Test]
+    public void Test_ConatinsTextNodePredicted()
+    {
+        //need to tune and reevaluate the prediction model
+        Assert.Multiple(() =>
+        {
+            foreach ((string htmlDoc, bool containsTextNode) in HtmlDocHelper.HtmlDocsWithLabel)
+            {
+                bool actual = HtmlDocHelper.ContainsTextNodePredicted(htmlDoc);
+                if(actual != containsTextNode)
+                {
+                    Console.WriteLine(htmlDoc);
+                }
+                Assert.That(HtmlDocHelper.ContainsTextNodePredicted(htmlDoc), Is.EqualTo(containsTextNode));
+            }
+        });
+        string test = "<div><li></li></ci><raw></raw><xml></xml></div>";
+        Assert.That(HtmlDocHelper.ContainsTextNodePredicted(test), Is.False);
     }
 }

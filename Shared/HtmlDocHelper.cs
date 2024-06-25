@@ -59,5 +59,42 @@ namespace Shared
             OutputPrediction prediction = PredictionEngine.Value.Predict(input);
             return prediction.Prediction;
         }
+
+        //Merge 2 html docs without duplicating any node
+        //dont modify the original html docs
+        public static string MergeHtmlDocs(string htmlDoc1, string htmlDoc2)
+        {
+            if (string.IsNullOrWhiteSpace(htmlDoc1))
+            {
+                return htmlDoc2;
+            }
+
+            if (string.IsNullOrWhiteSpace(htmlDoc2))
+            {
+                return htmlDoc1;
+            }
+
+            if (htmlDoc1 == htmlDoc2)
+            {
+                return htmlDoc1;
+            }
+
+            if (TryValidHtml(htmlDoc1, out HtmlDocument? doc1, out _) && TryValidHtml(htmlDoc2, out HtmlDocument? doc2, out _))
+            {
+                //merge 2 html docs without duplicating any node
+                //dont modify the original html docs
+                HtmlDocument mergedDoc = new HtmlDocument();
+                mergedDoc.LoadHtml(htmlDoc1);
+                HtmlNode bodyNode = mergedDoc.DocumentNode.SelectSingleNode("//body");
+                if (bodyNode is null)
+                {
+                    bodyNode = mergedDoc.CreateElement("body");
+                    mergedDoc.DocumentNode.AppendChild(bodyNode);
+                }
+                bodyNode.AppendChildren(doc2.DocumentNode.ChildNodes);
+                return mergedDoc.DocumentNode.OuterHtml;
+            }
+            return string.Empty;
+        }
     }
 }

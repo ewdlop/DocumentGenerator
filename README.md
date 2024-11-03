@@ -9,4 +9,9 @@ https://guide.dawin.io/basic-syntax#%D8%A7%D9%84%D9%82%D9%88%D8%A7%D8%A6%D9%85-%
 
 https://www.gitbook.com/?utm_source=legacy&utm_medium=redirect&utm_campaign=close_legacy
 
+# RAG
+
 https://aws.amazon.com/what-is/retrieval-augmented-generation/
+
+# Doxygen + Graphviz
+https://stackoverflow.com/questions/9484879/graphviz-doxygen-to-generate-uml-class-diagrams

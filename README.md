@@ -15,3 +15,8 @@ https://aws.amazon.com/what-is/retrieval-augmented-generation/
 
 # Doxygen + Graphviz
 https://stackoverflow.com/questions/9484879/graphviz-doxygen-to-generate-uml-class-diagrams
+
+
+# Citaiton Machine
+
+https://www.scribbr.com/citation/generator/folders/2SW3rWl9aNisXzPZg9dKY9/lists/2LRvxShvLPGS5BKYE6nno4/

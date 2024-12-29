@@ -72,4 +72,16 @@ public class Tests
         string test = "<div><li></li></ci><raw></raw><xml></xml></div>";
         Assert.That(HtmlDocHelper.ContainsTextNodePredicted(test), Is.False);
     }
+
+    [Test]
+    public void Test_MergeHtmlDocs()
+    {
+        string htmlDoc1 = "<html><body><div class='container'><p id='paragraph1'>Hello</p></div></body></html>";
+        string htmlDoc2 = "<html><body><div class='container'><p id='paragraph2'>World</p></div><footer>Footer content</footer></body></html>";
+        string expectedMergedHtml = "<html><body><div class='container'><p id='paragraph1'>Hello</p><p id='paragraph2'>World</p></div><footer>Footer content</footer></body></html>";
+
+        string mergedHtml = HtmlDocHelper.MergeHtmlDocs(htmlDoc1, htmlDoc2);
+
+        Assert.That(mergedHtml, Is.EqualTo(expectedMergedHtml));
+    }
 }

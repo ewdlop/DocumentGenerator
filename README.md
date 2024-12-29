@@ -20,3 +20,28 @@ https://stackoverflow.com/questions/9484879/graphviz-doxygen-to-generate-uml-cla
 # Citaiton Machine
 
 https://www.scribbr.com/citation/generator/folders/2SW3rWl9aNisXzPZg9dKY9/lists/2LRvxShvLPGS5BKYE6nno4/
+
+# MergeHtmlDocs Function
+
+The `MergeHtmlDocs` function in the `HtmlDocHelper` class allows you to merge two HTML documents without duplicating any nodes. This function ensures that the resulting merged document contains all unique nodes from both input documents.
+
+## Usage
+
+To use the `MergeHtmlDocs` function, follow these steps:
+
+1. Ensure you have the `HtmlDocHelper` class available in your project.
+2. Call the `MergeHtmlDocs` function with two HTML document strings as parameters.
+3. The function will return the merged HTML document as a string.
+
+## Example
+
+```csharp
+string htmlDoc1 = "<html><body><div class='container'><p id='paragraph1'>Hello</p></div></body></html>";
+string htmlDoc2 = "<html><body><div class='container'><p id='paragraph2'>World</p></div><footer>Footer content</footer></body></html>";
+
+string mergedHtml = HtmlDocHelper.MergeHtmlDocs(htmlDoc1, htmlDoc2);
+
+Console.WriteLine(mergedHtml);
+```
+
+In this example, the `MergeHtmlDocs` function merges the two input HTML documents and returns the merged result. The resulting merged HTML document will contain all unique nodes from both input documents.

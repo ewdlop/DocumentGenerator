@@ -81,20 +81,44 @@ namespace Shared
 
             if (TryValidHtml(htmlDoc1, out HtmlDocument? doc1, out _) && TryValidHtml(htmlDoc2, out HtmlDocument? doc2, out _))
             {
-                //merge 2 html docs without duplicating any node
-                //dont modify the original html docs
                 HtmlDocument mergedDoc = new HtmlDocument();
-                mergedDoc.LoadHtml(htmlDoc1);
-                HtmlNode bodyNode = mergedDoc.DocumentNode.SelectSingleNode("//body");
-                if (bodyNode is null)
-                {
-                    bodyNode = mergedDoc.CreateElement("body");
-                    mergedDoc.DocumentNode.AppendChild(bodyNode);
-                }
-                bodyNode.AppendChildren(doc2.DocumentNode.ChildNodes);
+                mergedDoc.LoadHtml(doc1.DocumentNode.OuterHtml);
+
+                MergeNodes(mergedDoc.DocumentNode, doc2.DocumentNode);
+
                 return mergedDoc.DocumentNode.OuterHtml;
             }
             return string.Empty;
+        }
+
+        private static void MergeNodes(HtmlNode node1, HtmlNode node2)
+        {
+            foreach (var child2 in node2.ChildNodes)
+            {
+                var matchingChild1 = FindMatchingNode(node1, child2);
+                if (matchingChild1 != null)
+                {
+                    MergeNodes(matchingChild1, child2);
+                }
+                else
+                {
+                    var importedChild = HtmlNode.CreateNode(child2.OuterHtml);
+                    node1.AppendChild(importedChild);
+                }
+            }
+        }
+
+        private static HtmlNode FindMatchingNode(HtmlNode parent, HtmlNode target)
+        {
+            return parent.ChildNodes
+                .FirstOrDefault(child => NodesAreSimilar(child, target));
+        }
+
+        private static bool NodesAreSimilar(HtmlNode node1, HtmlNode node2)
+        {
+            return node1.Name == node2.Name &&
+                   node1.Attributes["class"]?.Value == node2.Attributes["class"]?.Value &&
+                   node1.Attributes["id"]?.Value == node2.Attributes["id"]?.Value;
         }
     }
 }

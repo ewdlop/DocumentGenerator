@@ -1,5 +1,82 @@
 # DocumentGenerator
 
+#
+Here's how to run LaTeX locally with YAML configuration:
+
+To use this:
+
+```yaml
+# latex-config.yaml
+latex:
+  compiler: pdflatex
+  output_dir: ./build
+  templates_dir: ./templates
+  packages:
+    - amsmath
+    - amssymb
+    - mathtools
+    
+document:
+  title: "Hamiltonian Systems"
+  author: "Author Name"
+  template: article
+
+# main.tex
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\begin{document}
+\title{Hamiltonian Systems}
+\author{Author Name}
+\maketitle
+
+\section{Definitions}
+A Hamiltonian system is represented by a function $H: M \to \mathbb{R}$, with evolution dictated by Hamilton's equations.
+
+Canonical coordinates consist of position $q_i$ and momentum $p_i$ pairs.
+
+\end{document}
+
+# build.py
+import yaml
+import subprocess
+
+def build_latex():
+    with open('latex-config.yaml', 'r') as f:
+        config = yaml.safe_load(f)
+    
+    cmd = [
+        config['latex']['compiler'],
+        '-output-directory',
+        config['latex']['output_dir'],
+        'main.tex'
+    ]
+    subprocess.run(cmd)
+
+if __name__ == '__main__':
+    build_latex()
+```
+
+1. Install TeXLive or MiKTeX
+
+2. Create directory structure with config files
+
+3. Run: python build.py
+
+Requirements:
+
+```
+
+pip install pyyaml
+
+```
+
+The script will compile the LaTeX document according to the YAML configuration.
+
+# dawin
+
 https://www.markdownguide.org/tools/dawin/
 
 https://guide.dawin.io/basic-syntax#%D8%A7%D9%84%D9%82%D9%88%D8%A7%D8%A6%D9%85-%D8%A7%D9%84%D9%85%D9%86%D9%82%D9%91%D8%B7%D8%A9-%D8%BA%D9%8A%D8%B1-%D8%A7%D9%84%D9%85%D8%B1%D8%AA%D9%91%D8%A8%D8%A9

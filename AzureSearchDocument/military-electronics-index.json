@@ -1,0 +1,194 @@
+{
+    "name": "military-electronics-index",
+    "fields": [
+      {
+        "name": "id",
+        "type": "Edm.String",
+        "key": true,
+        "searchable": false
+      },
+      {
+        "name": "componentName",
+        "type": "Edm.String",
+        "searchable": true,
+        "filterable": true,
+        "sortable": true,
+        "facetable": true,
+        "analyzer": "standard.lucene"
+      },
+      {
+        "name": "category",
+        "type": "Edm.String",
+        "searchable": true,
+        "filterable": true,
+        "sortable": true,
+        "facetable": true
+      },
+      {
+        "name": "description",
+        "type": "Edm.String",
+        "searchable": true,
+        "analyzer": "standard.lucene"
+      },
+      {
+        "name": "manufacturer",
+        "type": "Edm.String",
+        "searchable": true,
+        "filterable": true,
+        "sortable": true,
+        "facetable": true
+      },
+      {
+        "name": "milSpecLevel",
+        "type": "Collection(Edm.String)",
+        "searchable": true,
+        "filterable": true,
+        "facetable": true
+      },
+      {
+        "name": "performanceMetrics",
+        "type": "Edm.ComplexType",
+        "fields": [
+          {
+            "name": "radiationHardening",
+            "type": "Edm.Double",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "operatingTempMin",
+            "type": "Edm.Int32",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "operatingTempMax",
+            "type": "Edm.Int32",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "powerConsumption",
+            "type": "Edm.Double",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "mtbfHours",
+            "type": "Edm.Int64",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          }
+        ]
+      },
+      {
+        "name": "cost",
+        "type": "Edm.ComplexType",
+        "fields": [
+          {
+            "name": "unitCost",
+            "type": "Edm.Double",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "maintenanceCostYearly",
+            "type": "Edm.Double",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          }
+        ]
+      },
+      {
+        "name": "environmentalRatings",
+        "type": "Edm.ComplexType",
+        "fields": [
+          {
+            "name": "vibrationResistance",
+            "type": "Edm.Double",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "shockResistance",
+            "type": "Edm.Double",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "empResistance",
+            "type": "Edm.Double",
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          }
+        ]
+      },
+      {
+        "name": "tags",
+        "type": "Collection(Edm.String)",
+        "searchable": true,
+        "filterable": true,
+        "facetable": true
+      },
+      {
+        "name": "lastUpdated",
+        "type": "Edm.DateTimeOffset",
+        "filterable": true,
+        "sortable": true
+      }
+    ],
+    "suggesters": [
+      {
+        "name": "componentSuggester",
+        "searchMode": "analyzingInfixMatching",
+        "sourceFields": ["componentName", "manufacturer", "category"]
+      }
+    ],
+    "scoringProfiles": [
+      {
+        "name": "performanceBooster",
+        "functions": [
+          {
+            "type": "magnitude",
+            "fieldName": "performanceMetrics/mtbfHours",
+            "boost": 2,
+            "interpolation": "linear",
+            "magnitude": {
+              "boostingRangeStart": 10000,
+              "boostingRangeEnd": 100000,
+              "constantBoostBeyondRange": false
+            }
+          },
+          {
+            "type": "freshness",
+            "fieldName": "lastUpdated",
+            "boost": 1.5,
+            "interpolation": "logarithmic",
+            "freshness": {
+              "boostingDuration": "P365D"
+            }
+          }
+        ],
+        "functionAggregation": "sum"
+      }
+    ],
+    "analyzers": [],
+    "charFilters": [],
+    "tokenizers": [],
+    "tokenFilters": [],
+    "defaultScoringProfile": "performanceBooster",
+    "corsOptions": {
+      "allowedOrigins": ["*"],
+      "maxAgeInSeconds": 300
+    }
+  }

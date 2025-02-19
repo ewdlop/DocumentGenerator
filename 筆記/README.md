@@ -1,3 +1,3 @@
 # README
 
-## a lot of college textbook lacks color and diagram.
+## A lot of college textbooks lacks color paint and diagram.

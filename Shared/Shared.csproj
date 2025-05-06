@@ -29,7 +29,7 @@
     <PackageReference Include="Octokit" Version="12.0.0" />
     <PackageReference Include="PDFsharp" Version="6.1.0" />
     <PackageReference Include="RandomDataGenerator.Net" Version="1.0.17" />
-    <PackageReference Include="RestSharp" Version="111.2.0" />
+    <PackageReference Include="RestSharp" Version="112.0.0" />
     <PackageReference Include="Wiki.Net" Version="4.1.1" />
     <PackageReference Include="YamlDotNet" Version="15.1.6" />
   </ItemGroup>
